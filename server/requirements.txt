@@ -1,0 +1,6 @@
+packaging==20.3
+pkg-resources==0.0.0
+PyBluez==0.23
+pyparsing==2.4.7
+six==1.14.0
+wireless==0.3.3

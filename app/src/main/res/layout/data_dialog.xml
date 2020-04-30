@@ -1,0 +1,96 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:layout_margin="10dp"
+    >
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_gravity="center_horizontal"
+        android:padding="12dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SSID:"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_marginTop="12dp"/>
+
+            <EditText
+                android:id="@+id/etRed"
+                android:inputType="textShortMessage"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/dialog_net_name" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Password:"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_marginTop="10dp" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/dialog_net_password"
+                android:inputType="textPassword" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="UUID:"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_marginTop="10dp" />
+
+            <EditText
+                android:id="@+id/etUUID"
+                android:inputType="textShortMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="UUID" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dialog_send"
+                    android:id="@+id/btnEnviar"
+                    android:layout_weight="0.5" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dialog_cancel"
+                    android:id="@+id/btnCancelar"
+                    android:layout_weight="0.5" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

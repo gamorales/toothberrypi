@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="devices_scan">
+        No hay dispositivos emparejados. \n
+        Use Bluetooth scan para conectar. \n
+        Toque logo BT.
+    </string>
+    <string name="paired_devices">Dispositivos Emparejados!</string>
+    <string name="bluetooth_off">Bluetooth Apagado!</string>
+    <string name="bluetooth_not_supported">Bluetooth No Soportado</string>
+    <string name="dialog_device">Dispositivo</string>
+    <string name="dialog_net_password">Password de la red</string>
+    <string name="dialog_net_name">Nombre de la red</string>
+    <string name="dialog_send">Enviar</string>
+    <string name="dialog_cancel">Cancelar</string>
+    <string name="dialog_not_empty">Todos los campos son obligatorios</string>
+    <string name="device_connecting">Conectando...</string>
+    <string name="device_connected">Conectado!</string>
+    <string name="device_not_connected">No Conectado!</string>
+    <string name="message_sent">Mensaje envíado.</string>
+    <string name="message_error">Error al enviar el mensaje.</string>
+</resources>

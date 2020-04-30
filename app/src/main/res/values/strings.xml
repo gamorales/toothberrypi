@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">ToothBerryPi</string>
+    <string name="devices_scan">
+        Not paired devices. \n
+        Use Bluetooth scan to connect. \n
+        Touch BT logo
+    </string>
+    <string name="paired_devices">Paired Devices!</string>
+    <string name="bluetooth_off">Bluetooth Off!</string>
+    <string name="bluetooth_not_supported">Bluetooth Not Supported</string>
+    <string name="dialog_device">Device</string>
+    <string name="dialog_net_password">Net Password</string>
+    <string name="dialog_net_name">Net Name</string>
+    <string name="dialog_send">Send</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_not_empty">All fields are mandatory</string>
+    <string name="device_connecting">Connecting...</string>
+    <string name="device_connected">Connected!</string>
+    <string name="device_not_connected">Not Connected!</string>
+    <string name="message_sent">Message Sent.</string>
+    <string name="message_error">Error sending the message.</string>
+</resources>
