@@ -1,4 +1,4 @@
-package co.com.password.toothberrypi.devices.models
+package co.dev.gamorales.toothberrypi.devices.models
 
 import android.bluetooth.BluetoothDevice
 

@@ -1,11 +1,7 @@
-package co.com.password.toothberrypi
+package co.dev.gamorales.toothberrypi
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
-import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,20 +10,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import co.com.password.toothberrypi.devices.controllers.DevicesAdapter
-import co.com.password.toothberrypi.devices.models.DevicesDTO
+import co.dev.gamorales.toothberrypi.devices.controllers.DevicesAdapter
+import co.dev.gamorales.toothberrypi.devices.models.DevicesDTO
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.collections.ArrayList
-import android.bluetooth.BluetoothServerSocket
-import android.bluetooth.BluetoothSocket
-
-import android.os.Handler
-import android.os.Message
-import android.widget.AdapterView
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {

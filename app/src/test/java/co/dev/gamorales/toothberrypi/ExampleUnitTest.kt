@@ -1,4 +1,4 @@
-package co.com.password.toothberrypi
+package co.dev.gamorales.toothberrypi
 
 import org.junit.Test
 

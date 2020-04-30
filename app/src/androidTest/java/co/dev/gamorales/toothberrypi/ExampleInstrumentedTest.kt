@@ -1,4 +1,4 @@
-package co.com.password.toothberrypi
+package co.dev.gamorales.toothberrypi
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

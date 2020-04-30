@@ -1,9 +1,7 @@
-package co.com.password.toothberrypi.devices.controllers
+package co.dev.gamorales.toothberrypi.devices.controllers
 
 import android.app.AlertDialog
-import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
-import android.bluetooth.BluetoothServerSocket
 import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.graphics.Color
@@ -18,8 +16,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import co.com.password.toothberrypi.R
-import co.com.password.toothberrypi.devices.models.DevicesDTO
+import co.dev.gamorales.toothberrypi.R
+import co.dev.gamorales.toothberrypi.devices.models.DevicesDTO
 import kotlinx.android.synthetic.main.data_dialog.view.*
 import kotlinx.android.synthetic.main.devices_list.view.*
 import java.io.IOException
