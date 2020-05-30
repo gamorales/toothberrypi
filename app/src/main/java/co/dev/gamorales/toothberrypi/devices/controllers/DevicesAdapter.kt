@@ -88,7 +88,7 @@ class DevicesAdapter(var devices: List<DevicesDTO>, var context: Context):
                 Log.i("INFO", "${red} - ${password} - ${uuid}")
 
                 var data = "${red}||${password}||${uuid}"
-                sendReceive!!.write(data.toByteArray())
+                sendReceive!!.write(data.toByteArray(), true)
 
                 // mAlertDialog.dismiss()
             }
@@ -100,6 +100,12 @@ class DevicesAdapter(var devices: List<DevicesDTO>, var context: Context):
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val cvDevice = view.findViewById(R.id.cvDevice) as CardView
+        val tvField1 = view.findViewById(R.id.tvField1) as TextView
+        val tvValue1 = view.findViewById(R.id.tvValue1) as TextView
+        val tvField2 = view.findViewById(R.id.tvField2) as TextView
+        val tvValue2 = view.findViewById(R.id.tvValue2) as TextView
+        val tvField3 = view.findViewById(R.id.tvField3) as TextView
+        val tvValue3 = view.findViewById(R.id.tvValue3) as TextView
         val tvDevice = view.findViewById(R.id.tvDevice) as TextView
         val tvDeviceMAC = view.findViewById(R.id.tvDeviceMAC) as TextView
         val ivDeviceStatus = view.findViewById(R.id.ivDeviceStatus) as ImageView
@@ -119,17 +125,34 @@ class DevicesAdapter(var devices: List<DevicesDTO>, var context: Context):
         }
     }
 
+    var THREAD_EXECUTION_TIME = 8000
+    val handlerTimer = Handler()
     var handler = Handler(Handler.Callback { msg ->
         when (msg.what) {
-            STATE_LISTENING -> tvStatus!!.text = "Listening..."
-            STATE_CONNECTING -> tvStatus!!.text = "Connecting..."
-            STATE_CONNECTED -> tvStatus!!.text = "Connected!"
-            STATE_CONNECTION_FAILED -> tvStatus!!.text = "Connection Failed!"
+            STATE_LISTENING -> tvStatus.text = "Listening..."
+            STATE_CONNECTING -> tvStatus.text = "Connecting..."
+            STATE_CONNECTED -> {
+                tvStatus.text = "Connected!"
+
+                handlerTimer.postDelayed(object : Runnable {
+                    override fun run() {
+                        try {
+                            sendReceive!!.write("data".toByteArray())
+                            Log.i("INFO", "Enviado!")
+                        } catch (e: IOException) {
+                            Log.e("ERROR", "ERROR SENDING DATA STRING ${e.message}")
+                        }
+                        handlerTimer.postDelayed(this, THREAD_EXECUTION_TIME.toLong())
+                    }
+                }, 0)
+
+            }
+            STATE_CONNECTION_FAILED -> tvStatus.text = "Connection Failed!"
             STATE_MESSAGE_RECEIVED -> {
                 val readBuff = msg.obj as ByteArray
                 val tempMsg = String(readBuff, 0, msg.arg1)
                 // msg_box!!.text = tempMsg
-                Log.i("INFO", tempMsg)
+                Log.i("INFO", "EL MENSAJE: ${tempMsg}")
             }
         }
         true
@@ -178,12 +201,14 @@ class DevicesAdapter(var devices: List<DevicesDTO>, var context: Context):
             while (true) {
                 try {
                     bytes = inputStream!!.read(buffer)
+                    Log.i("INFO", "QUESO ${bytes}")
                     handler.obtainMessage(
                         STATE_MESSAGE_RECEIVED,
                         bytes,
                         -1,
                         buffer
                     ).sendToTarget()
+
                 } catch (e: IOException) {
                     Log.i("INFO", "EL ERROR ${e.message}")
                     e.printStackTrace()
@@ -191,11 +216,17 @@ class DevicesAdapter(var devices: List<DevicesDTO>, var context: Context):
             }
         }
 
-        fun write(bytes: ByteArray?) {
+        fun write(bytes: ByteArray?, message: Boolean=false) {
             try {
                 outputStream!!.write(bytes)
                 Log.i("INFO", "LOS BYTES: ${bytes}")
-                Toast.makeText(context, context.getString(R.string.message_sent), Toast.LENGTH_LONG).show()
+                if (message) {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.message_sent),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             } catch (e: IOException) {
                 Log.i("INFO", "EL ERROR ${e.message}")
                 Toast.makeText(context, context.getString(R.string.message_error), Toast.LENGTH_LONG).show()

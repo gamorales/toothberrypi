@@ -1,17 +1,22 @@
 #!/usr/bin/python
-import time
+
 from bluetooth import *
 
 def connect_wifi(connection_data):
     data = connection_data.decode("utf-8").split('||')
 
-    from wireless import Wireless
-    wireless = Wireless()
-    wireless.connect(ssid=data[0].strip(), password=data[1].strip())
+    #from wireless import Wireless
+    #wireless = Wireless()
+    #wireless.connect(ssid=data[0].strip(), password=data[1].strip())
 
     with open('./conexion.txt', 'w') as f:
         f.write(data[2])
-    f.close()
+
+def send_parameters(server_sock):
+    print('entró')
+    with open('./data.txt', 'r') as f:
+        print(f'{f.read()}')
+        server_sock.send(f.read())
 
 def run_bluetooth_socket():
     server_sock = BluetoothSocket(RFCOMM)
@@ -39,8 +44,13 @@ def run_bluetooth_socket():
             while True:
                 data = client_sock.recv(1024)
                 if len(data) == 0: break
-                print(f"received [{data}]")
-                connect_wifi(data)
+                print(f"received [{data.decode('utf-8')}]")
+                if len(data.decode('utf-8').split('||')) == 1:
+                    print('Enviaron data')
+                    send_parameters(server_sock)
+                elif len(data.decode('utf-8').split('||')) == 3:
+                    connect_wifi(data)
+
         except IOError as e:
             print(f"ERROR {e}")
 
@@ -55,4 +65,4 @@ if __name__ == "__main__":
     try:
         run_bluetooth_socket()
     except KeyboardInterrupt:
-        print("Bye")
+        print("\nBye")
