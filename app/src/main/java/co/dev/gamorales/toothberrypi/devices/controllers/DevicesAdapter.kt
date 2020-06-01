@@ -9,6 +9,7 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Handler
 import android.os.Message
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +34,7 @@ class DevicesAdapter(var devices: List<DevicesDTO>, var context: Context):
     var sendReceive: SendReceive? = null
     var status: Boolean = false
     lateinit var tvStatus: TextView
+    lateinit var tvData: TextView
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DevicesAdapter.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -67,6 +69,7 @@ class DevicesAdapter(var devices: List<DevicesDTO>, var context: Context):
         val  mAlertDialog = mBuilder.show()
 
         tvStatus = mDialogView.tvStatus
+        tvData = mDialogView.tvData
 
         if (!status) {
             val clientClass = ClientClass(device, context)
@@ -105,12 +108,6 @@ class DevicesAdapter(var devices: List<DevicesDTO>, var context: Context):
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val cvDevice = view.findViewById(R.id.cvDevice) as CardView
-        val tvField1 = view.findViewById(R.id.tvField1) as TextView
-        val tvValue1 = view.findViewById(R.id.tvValue1) as TextView
-        val tvField2 = view.findViewById(R.id.tvField2) as TextView
-        val tvValue2 = view.findViewById(R.id.tvValue2) as TextView
-        val tvField3 = view.findViewById(R.id.tvField3) as TextView
-        val tvValue3 = view.findViewById(R.id.tvValue3) as TextView
         val tvDevice = view.findViewById(R.id.tvDevice) as TextView
         val tvDeviceMAC = view.findViewById(R.id.tvDeviceMAC) as TextView
         val ivDeviceStatus = view.findViewById(R.id.ivDeviceStatus) as ImageView
@@ -126,20 +123,6 @@ class DevicesAdapter(var devices: List<DevicesDTO>, var context: Context):
             } else {
                 ivDeviceStatus.setBackgroundResource(R.drawable.not_connected)
                 deviceBottomColor.setBackgroundColor(Color.parseColor("#FF0000"))
-            }
-        }
-
-        companion object {
-            @JvmStatic
-            fun updateViews(field1: String, value1: String,
-                            field2: String, value2: String,
-                            field3: String, value3: String) {
-                tvField1.text = field1
-                tvValue1.text = value1
-                tvField2.text = field2
-                tvValue2.text = value2
-                tvField3.text = field3
-                tvValue3.text = value3
             }
         }
     }
@@ -174,19 +157,8 @@ class DevicesAdapter(var devices: List<DevicesDTO>, var context: Context):
             STATE_MESSAGE_RECEIVED -> {
                 val readBuff = msg.obj as ByteArray
                 val tempMsg = String(readBuff, 0, msg.arg1)
-                val fields = tempMsg.split(";").toTypedArray()
-                val field1 = fields[0].split(": ").toTypedArray()
-                val field2 = fields[1].split(": ").toTypedArray()
-                val field3 = fields[2].split(": ").toTypedArray()
-
-                ViewHolder.up
-                // msg_box!!.text = tempMsg
+                tvData.text = tempMsg
                 Log.i("INFO", "EL MENSAJE: ${tempMsg}")
-                Toast.makeText(
-                    context,
-                    "EL MENSAJE: ${tempMsg}",
-                    Toast.LENGTH_LONG
-                ).show()
             }
         }
         true
