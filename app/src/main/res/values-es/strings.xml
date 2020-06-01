@@ -19,4 +19,5 @@
     <string name="device_not_connected">No Conectado!</string>
     <string name="message_sent">Mensaje envíado.</string>
     <string name="message_error">Error al enviar el mensaje.</string>
+    <string name="message_parameters_error">Error recibiendo parametros, revise si el servidor está corriendo.</string>
 </resources>

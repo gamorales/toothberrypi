@@ -15,8 +15,9 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_not_empty">All fields are mandatory</string>
     <string name="device_connecting">Connecting...</string>
-    <string name="device_connected">puto Connected!</string>
+    <string name="device_connected">Connected!</string>
     <string name="device_not_connected">Not Connected!</string>
     <string name="message_sent">Message Sent.</string>
     <string name="message_error">Error sending the message.</string>
+    <string name="message_parameters_error">Error receiving parameters, check if server is running.</string>
 </resources>

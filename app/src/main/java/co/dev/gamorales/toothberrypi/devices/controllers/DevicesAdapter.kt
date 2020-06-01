@@ -1,7 +1,9 @@
 package co.dev.gamorales.toothberrypi.devices.controllers
 
 import android.app.AlertDialog
+import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothServerSocket
 import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.graphics.Color
@@ -69,6 +71,9 @@ class DevicesAdapter(var devices: List<DevicesDTO>, var context: Context):
         if (!status) {
             val clientClass = ClientClass(device, context)
             clientClass.start()
+
+            val serverClass = ServerClass()
+            serverClass.start()
         } else {
             tvStatus.text = context.getString(R.string.device_connected)
         }
@@ -123,16 +128,34 @@ class DevicesAdapter(var devices: List<DevicesDTO>, var context: Context):
                 deviceBottomColor.setBackgroundColor(Color.parseColor("#FF0000"))
             }
         }
+
+        companion object {
+            @JvmStatic
+            fun updateViews(field1: String, value1: String,
+                            field2: String, value2: String,
+                            field3: String, value3: String) {
+                tvField1.text = field1
+                tvValue1.text = value1
+                tvField2.text = field2
+                tvValue2.text = value2
+                tvField3.text = field3
+                tvValue3.text = value3
+            }
+        }
     }
 
     var THREAD_EXECUTION_TIME = 8000
     val handlerTimer = Handler()
     var handler = Handler(Handler.Callback { msg ->
+        // Toast.makeText(context, "SIIII ${msg.what}", Toast.LENGTH_LONG).show()
+        Log.i("INFO", "SIIII ${msg.what}")
         when (msg.what) {
             STATE_LISTENING -> tvStatus.text = "Listening..."
             STATE_CONNECTING -> tvStatus.text = "Connecting..."
             STATE_CONNECTED -> {
                 tvStatus.text = "Connected!"
+                Log.i("INFO", "SIIII ${msg.what}")
+                Thread.sleep(4000)
 
                 handlerTimer.postDelayed(object : Runnable {
                     override fun run() {
@@ -151,12 +174,63 @@ class DevicesAdapter(var devices: List<DevicesDTO>, var context: Context):
             STATE_MESSAGE_RECEIVED -> {
                 val readBuff = msg.obj as ByteArray
                 val tempMsg = String(readBuff, 0, msg.arg1)
+                val fields = tempMsg.split(";").toTypedArray()
+                val field1 = fields[0].split(": ").toTypedArray()
+                val field2 = fields[1].split(": ").toTypedArray()
+                val field3 = fields[2].split(": ").toTypedArray()
+
+                ViewHolder.up
                 // msg_box!!.text = tempMsg
                 Log.i("INFO", "EL MENSAJE: ${tempMsg}")
+                Toast.makeText(
+                    context,
+                    "EL MENSAJE: ${tempMsg}",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
         true
     })
+
+    private inner class ServerClass: Thread() {
+        private val bAdapter = BluetoothAdapter.getDefaultAdapter()
+        private var serverSocket: BluetoothServerSocket? = null
+        override fun run() {
+            var socket: BluetoothSocket? = null
+            while (socket == null) {
+                try {
+                    val message = Message.obtain()
+                    message.what = STATE_CONNECTING
+                    handler.sendMessage(message)
+                    socket = serverSocket!!.accept()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                    val message = Message.obtain()
+                    message.what = STATE_CONNECTION_FAILED
+                    handler.sendMessage(message)
+                }
+                if (socket != null) {
+                    val message = Message.obtain()
+                    message.what = STATE_CONNECTED
+                    handler.sendMessage(message)
+                    sendReceive = SendReceive(socket)
+                    sendReceive!!.start()
+                    break
+                }
+            }
+        }
+
+        init {
+            try {
+                serverSocket = bAdapter!!.listenUsingRfcommWithServiceRecord(
+                    APP_NAME,
+                    MY_UUID
+                )
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+    }
 
     private inner class ClientClass(private val device: BluetoothDevice?, context: Context) : Thread() {
         private var socket: BluetoothSocket? = null
@@ -196,6 +270,7 @@ class DevicesAdapter(var devices: List<DevicesDTO>, var context: Context):
         private val inputStream: InputStream?
         private val outputStream: OutputStream?
         override fun run() {
+//            Toast.makeText(context, "lerolero", Toast.LENGTH_LONG).show()
             val buffer = ByteArray(1024)
             var bytes: Int
             while (true) {
@@ -229,7 +304,19 @@ class DevicesAdapter(var devices: List<DevicesDTO>, var context: Context):
                 }
             } catch (e: IOException) {
                 Log.i("INFO", "EL ERROR ${e.message}")
-                Toast.makeText(context, context.getString(R.string.message_error), Toast.LENGTH_LONG).show()
+                if (message) {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.message_error),
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.message_parameters_error),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
                 e.printStackTrace()
             }
         }

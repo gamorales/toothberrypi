@@ -12,11 +12,11 @@ def connect_wifi(connection_data):
     with open('./conexion.txt', 'w') as f:
         f.write(data[2])
 
-def send_parameters(server_sock):
-    print('entró')
+def send_parameters(client):
     with open('./data.txt', 'r') as f:
-        print(f'{f.read()}')
-        server_sock.send(f.read())
+        data = f.read()
+        print(f'{data}')
+        client.send(data)
 
 def run_bluetooth_socket():
     server_sock = BluetoothSocket(RFCOMM)
@@ -45,9 +45,9 @@ def run_bluetooth_socket():
                 data = client_sock.recv(1024)
                 if len(data) == 0: break
                 print(f"received [{data.decode('utf-8')}]")
+
                 if len(data.decode('utf-8').split('||')) == 1:
-                    print('Enviaron data')
-                    send_parameters(server_sock)
+                    send_parameters(client_sock)
                 elif len(data.decode('utf-8').split('||')) == 3:
                     connect_wifi(data)
 

@@ -1,0 +1,7 @@
+
+npython:S107‘"VFunction "advertise_service" has 8 parameters, which is greater than the 7 authorized.(™Éœì
+mpython:S3776‘"TRefactor this function to reduce its Cognitive Complexity from 19 to the 15 allowed.(™Éœì
+rpython:S3776å"TRefactor this function to reduce its Cognitive Complexity from 23 to the 15 allowed.(®ƒ²Øıÿÿÿÿ
+tpython:S117"^Rename this local variable "btAddresIndex" to match the regular expression ^[_a-z][a-z0-9_]*$.(Û–¬w
+wpython:S117"[Rename this local variable "namesIndex" to match the regular expression ^[_a-z][a-z0-9_]*$.(«ëÆÿÿÿÿÿ
+rpython:S117"[Rename this local variable "classIndex" to match the regular expression ^[_a-z][a-z0-9_]*$.(¦…¸û
